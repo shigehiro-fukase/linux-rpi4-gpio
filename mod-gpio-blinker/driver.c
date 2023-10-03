@@ -24,13 +24,13 @@ static int gpo = GPIO_PIN_OUTPUT;
 module_param(gpo, int, S_IRUGO);
 MODULE_PARM_DESC(gpo, "GPIO output number");
 
-static unsigned long ksec = PERIOD_SEC;
-module_param(ksec, ulong, S_IRUGO);
-MODULE_PARM_DESC(ksec, "Timer period seconds part of `ktime_set(secs, nanosecs)`");
+static unsigned long sec = PERIOD_SEC;
+module_param(sec, ulong, S_IRUGO);
+MODULE_PARM_DESC(sec, "Timer period seconds part of `ktime_set(sec, nsec)`");
 
-static unsigned long knsec = PERIOD_NSEC;
-module_param(knsec, ulong, S_IRUGO);
-MODULE_PARM_DESC(knsec, "Timer period nano-seconds part of `ktime_set(secs, nanosecs)`");
+static unsigned long nsec = PERIOD_NSEC;
+module_param(nsec, ulong, S_IRUGO);
+MODULE_PARM_DESC(nsec, "Timer period nano-seconds part of `ktime_set(sec, nsec)`");
 
 static bool verbose = false;
 module_param(verbose, bool, S_IRUGO);
@@ -53,12 +53,12 @@ enum hrtimer_restart timer_callback(struct hrtimer *timer) {
 	gpio_set_value(gpo, state);
 	state ^= 1;
 
-	hrtimer_forward_now(timer, ktime_set(ksec, knsec));
+	hrtimer_forward_now(timer, ktime_set(sec, nsec));
 	return HRTIMER_RESTART;
 }
 
 static void print_settings(void) {
-	printk(DRIVER_NAME ": gpo=%d period={sec=%lu nsec=%lu}\n", gpo, ksec, knsec);
+	printk(DRIVER_NAME ": gpo=%d period={sec=%lu nsec=%lu}\n", gpo, sec, nsec);
 }
 
 /* At load (insmod) */
@@ -75,7 +75,7 @@ static int __init mod_init(void) {
 
 	/* Setup the timer */
 	ktime_t ktime;
-	ktime = ktime_set(ksec, knsec);
+	ktime = ktime_set(sec, nsec);
 	hrtimer_init(&hr_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
 	hr_timer.function = &timer_callback;
 	hrtimer_start( &hr_timer, ktime, HRTIMER_MODE_REL);
