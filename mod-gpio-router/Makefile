@@ -24,6 +24,6 @@ insmod: rmmod
 	grep "" -r /sys/module/gpio_router/parameters/
 
 test:
-	@raspi-gpio set 16 ip pu
-	@raspi-gpio set 42 op pn
-	@raspi-gpio get 16,42
+	raspi-gpio set 16 ip pu
+	raspi-gpio set 42 op pn
+	raspi-gpio get 16,42
