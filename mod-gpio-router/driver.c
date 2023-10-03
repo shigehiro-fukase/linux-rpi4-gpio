@@ -11,7 +11,7 @@
 #include <asm/uaccess.h>
 
 MODULE_LICENSE("Dual BSD/GPL");
-#define DRIVER_NAME "rpi-gpio-router"	/* /proc/devices */
+#define DRIVER_NAME "rpi-gpio-router"	/* /proc/devices, /proc/modules */
 
 /* default value */
 #define GPIO_PIN_OUTPUT 4
