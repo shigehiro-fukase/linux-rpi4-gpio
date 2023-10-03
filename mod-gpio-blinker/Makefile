@@ -14,14 +14,14 @@ clean:
 
 .PHONY: rmmod insmod
 rmmod: all
-	-@sudo rmmod $(obj-m:.o=)
-	-@lsmod | grep $(obj-m:.o=)
+	-sudo rmmod $(obj-m:.o=)
+	-lsmod | grep $(obj-m:.o=)
 
 insmod: rmmod
-	-@modprobe $(obj-m:.o=)
+	-modprobe $(obj-m:.o=)
 	sudo insmod $(obj-m:.o=.ko) gpo=42 knsec=200000000 verbose=false
 	grep "" -r /sys/module/gpio_blinker/parameters/
 
 test:
-	@raspi-gpio set 42 op pn
-	@raspi-gpio get 42
+	raspi-gpio set 42 op pn
+	raspi-gpio get 42
