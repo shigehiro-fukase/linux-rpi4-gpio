@@ -14,11 +14,11 @@ clean:
 
 .PHONY: rmmod insmod
 rmmod: all
-	-@sudo rmmod $(obj-m:.o=)
-	-@lsmod | grep $(obj-m:.o=)
+	-sudo rmmod $(obj-m:.o=)
+	-lsmod | grep $(obj-m:.o=)
 
 insmod: rmmod
-	-@modprobe $(obj-m:.o=)
+	-modprobe $(obj-m:.o=)
 	#sudo insmod $(obj-m:.o=.ko) gpi=16 gpo=42 gpi_opt="l" reverse=true verbose=true
 	sudo insmod $(obj-m:.o=.ko) gpi=16 gpo=42 gpi_opt="rf" reverse=true verbose=true
 	grep "" -r /sys/module/gpio_router/parameters/
