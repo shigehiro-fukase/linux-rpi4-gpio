@@ -8,7 +8,21 @@ gpio-router-objs := $(CFILES:.c=.o)
 ccflags-y += -std=gnu99 -Wall -Wno-declaration-after-statement
 
 all:
-	make -C $(KERNEL_HEADERS) M=$(PWD) modules
+	$(MAKE) -C $(KERNEL_HEADERS) M=$(PWD) modules
 clean:
-	make -C $(KERNEL_HEADERS) M=$(PWD) clean
+	$(MAKE) -C $(KERNEL_HEADERS) M=$(PWD) clean
 
+.PHONY: rmmod insmod
+rmmod: all
+	-@sudo rmmod $(obj-m:.o=)
+	-@lsmod | grep $(obj-m:.o=)
+
+insmod: rmmod
+	-@modprobe $(obj-m:.o=)
+	@sudo insmod $(obj-m:.o=.ko) gpi_num=16 gpo_num=42 gpi_opt="frpu" reverse=true verbose=true
+	@grep "" -r /sys/module/gpio_router/parameters/
+
+test:
+	@raspi-gpio set 16 ip pu
+	@raspi-gpio set 42 op pn
+	@raspi-gpio get 16,42
