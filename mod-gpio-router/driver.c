@@ -135,11 +135,11 @@ static void print_settings(void) {
 }
 
 /* At load (insmod) */
-static int mod_init(void) {
+static int __init mod_init(void) {
 	printk(DRIVER_NAME ": mod_init\n");
 
 	if (gpi_opt != NULL) {
-	printk(DRIVER_NAME ": gpi_opt=%s\n", gpi_opt);
+		printk(DRIVER_NAME ": gpi_opt=%s\n", gpi_opt);
 		gpi_desc_from_str(&gpid, gpi_opt);
 		gpi_trigger = IRQF_TRIGGER_NONE;
 		gpi_desc_set(&gpid, &gpi_trigger);
@@ -169,7 +169,7 @@ static int mod_init(void) {
 }
 
 /* At unload (rmmod) */
-static void mod_exit(void) {
+static void __exit mod_exit(void) {
 	printk(DRIVER_NAME ": mod_exit\n");
 	int irq = gpio_to_irq(gpi);
 	free_irq(irq, (void*)gpio_intr);
