@@ -165,6 +165,7 @@ static int __init mod_init(void) {
 		return -1;
 	}
 
+	printk(DRIVER_NAME ": insmod done.\n");
 	return 0;
 }
 
