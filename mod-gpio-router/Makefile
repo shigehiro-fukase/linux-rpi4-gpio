@@ -19,7 +19,8 @@ rmmod: all
 
 insmod: rmmod
 	-@modprobe $(obj-m:.o=)
-	sudo insmod $(obj-m:.o=.ko) gpi=16 gpo=42 gpi_opt="frpu" reverse=true verbose=true
+	#sudo insmod $(obj-m:.o=.ko) gpi=16 gpo=42 gpi_opt="l" reverse=true verbose=true
+	sudo insmod $(obj-m:.o=.ko) gpi=16 gpo=42 gpi_opt="rf" reverse=true verbose=true
 	grep "" -r /sys/module/gpio_router/parameters/
 
 test:
