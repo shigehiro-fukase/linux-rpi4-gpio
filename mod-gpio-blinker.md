@@ -33,18 +33,18 @@ Linux 用のドライバモジュール。
 
 指定例）
 ```
-$ sudo insmod gpio-blinker.ko gpo=42 knsec=2000000000 verbose=true
+$ sudo insmod gpio-blinker.ko gpo=42 nsec=2000000000 verbose=true
 ```
 
 値の確認例）
 ```
 $ grep "" -r /sys/module/gpio_blinker/parameters/
-sudo insmod gpio-blinker.ko gpo=42 knsec=2000000000
+sudo insmod gpio-blinker.ko gpo=42 nsec=2000000000
 grep "" -r /sys/module/gpio_blinker/parameters/
 /sys/module/gpio_blinker/parameters/gpo:42
 /sys/module/gpio_blinker/parameters/verbose:Y
-/sys/module/gpio_blinker/parameters/knsec:2000000000
-/sys/module/gpio_blinker/parameters/ksec:0
+/sys/module/gpio_blinker/parameters/nsec:2000000000
+/sys/module/gpio_blinker/parameters/sec:0
 ```
 パス名はハイフン（`'-'`）ではなく、アンダースコア（`'_'`）なので注意。
 
@@ -57,20 +57,20 @@ GPIO 4 に設定する例
 $ sudo insmod gpio-router.ko gpo=4
 ```
 
-#### `ksec` `knsec` : 周期変更
+#### `sec` `nsec` : 周期変更
 
 タイマー周期を2つの数値で指定します。
 
-- `ksec` : 数値は秒(s) で指定します。（デフォルト値:`0`）
-- `knsec` : 数値はナノ秒(ns) で指定します。（デフォルト値:`1000000000` ＝1秒）
+- `sec` : 数値は秒(s) で指定します。（デフォルト値:`0`）
+- `nsec` : 数値はナノ秒(ns) で指定します。（デフォルト値:`1000000000` ＝1秒）
 
 モジュールのロード（`insmod`）時にタイマーを開始するためのパラメータとして使用されます。
-それぞれ、Linux の `ktime_set(ksec, knsec)` 関数の引数になります。
-（つまり、周期を5秒にしたい場合、 `ksec=5,knsec=1000000000` でも、`ksec=0,knsec=5000000000` でも可能です）
+それぞれ、Linux の `ktime_set(sec, nsec)` 関数の引数になります。
+（つまり、周期を5秒にしたい場合、 `sec=5,nsec=1000000000` でも、`sec=0,nsec=5000000000` でも可能です）
 
 20ms に設定する例
 ```
-$ sudo insmod gpio-router.ko knsec=20000000
+$ sudo insmod gpio-router.ko nsec=20000000
 ```
 
 #### `verbose` : 冗長プリント出力設定
