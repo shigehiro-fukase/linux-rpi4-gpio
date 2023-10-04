@@ -19,7 +19,7 @@ rmmod: all
 
 insmod: rmmod
 	-modprobe $(obj-m:.o=)
-	sudo insmod $(obj-m:.o=.ko) gpo=42 knsec=200000000 verbose=false
+	sudo insmod $(obj-m:.o=.ko) gpo=42 nsec=200000000 verbose=false
 	grep "" -r /sys/module/gpio_blinker/parameters/
 
 test:
