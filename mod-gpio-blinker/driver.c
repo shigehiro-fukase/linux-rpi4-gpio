@@ -78,9 +78,13 @@ static int __init mod_init(void) {
 	/* Setup the timer */
 	ktime_t ktime;
 	ktime = ktime_set(sec, nsec);
+#if 0
 	hrtimer_init(&hr_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+#else
+	hrtimer_init(&hr_timer, CLOCK_REALTIME, HRTIMER_MODE_REL);
+#endif
 	hr_timer.function = &timer_callback;
-	hrtimer_start( &hr_timer, ktime, HRTIMER_MODE_REL);
+	hrtimer_start(&hr_timer, ktime, HRTIMER_MODE_REL);
 
 	printk(DRIVER_NAME ": insmod done.\n");
 	return 0;
