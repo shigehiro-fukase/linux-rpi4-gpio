@@ -6,6 +6,7 @@ obj-m := gpio-blinker.o
 gpio-blinker-objs := $(CFILES:.c=.o)
 
 ccflags-y += -std=gnu99 -Wall -Wno-declaration-after-statement
+ccflags-y += -DDRIVER_NAME=\"$(obj-m:.o=)\"
 
 all:
 	$(MAKE) -C $(KERNEL_HEADERS) M=$(PWD) modules

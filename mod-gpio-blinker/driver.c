@@ -13,7 +13,9 @@
 #include <asm/uaccess.h>
 
 MODULE_LICENSE("Dual BSD/GPL");
+#ifndef DRIVER_NAME
 #define DRIVER_NAME "rpi-gpio-blinker"	/* /proc/devices, /proc/modules */
+#endif /* DRIVER_NAME */
 
 /* default value */
 #define GPIO_PIN_OUTPUT 42
