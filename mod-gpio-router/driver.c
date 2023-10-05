@@ -113,15 +113,20 @@ static void gpio_trigger_str(char * dst, int gt) {
 }
 
 static irqreturn_t gpio_intr(int irq, void *dev_id) {
-	int pin_state = gpio_get_value(gpi);
-	if (verbose) {
-		printk(DRIVER_NAME ": gpio_intr input = %d\n", pin_state);
-	}
-
+	int input = gpio_get_value(gpi);
+	int output;
 	if (reverse) {
-		gpio_set_value(gpo, pin_state^1);
+		output = input^1;
 	} else {
-		gpio_set_value(gpo, pin_state);
+		output = input;
+	}
+	gpio_set_value(gpo, output);
+	if (verbose) {
+		int irq = gpio_to_irq(gpi);
+		printk(DRIVER_NAME ": irqno=%d in=%d(%s) out=%d(%s)\n"
+				, irq
+				, input, (input) ? "H" : "L"
+				, output, (output) ? "H" : "L");
 	}
 	return IRQ_HANDLED;
 }
